@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import MapView, { Marker, Callout } from 'react-native-maps';
 import { requestPermissionsAsync, getCurrentPositionAsync } from 'expo-location';
+import { MaterialIcons } from '@expo/vector-icons';
 
 function Main({ navigation }) {
    const [currentRegion, setCurrentRegion] = useState(null);
@@ -33,6 +34,7 @@ function Main({ navigation }) {
    }
 
     return (
+      <>
       <MapView initialRegion={currentRegion} style={styles.map}>
          <Marker coordinate={{ latitude: -23.4349335, longitude: -46.5174823 }}>
             <Image source={{ uri: 'https://avatars1.githubusercontent.com/u/1755147?s=460&v=4' }} style={styles.avatar} />
@@ -47,6 +49,20 @@ function Main({ navigation }) {
             </Callout>
          </Marker>
       </MapView>
+      <View style={styles.searchForm}>
+         <TextInput
+            style={styles.searchInput}
+            placeholder="Buscar devs por tecnologia"
+            placeholderTextColor="#999"
+            autoCapitalize="words"
+            autoCorrect={false}
+         />
+
+         <TouchableOpacity onPress={() => {}} style={styles.loadButton}>
+            <MaterialIcons name="my-location" size={20} color="#fff" />
+         </TouchableOpacity>
+      </View>
+      </>
     );
 }
 
@@ -74,6 +90,42 @@ const styles = StyleSheet.create({
    },
    devTechs: {
       marginTop: 5
+   },
+   searchForm: {
+      position: 'absolute',
+      bottom: 20,
+      left: 20,
+      right: 20,
+      zIndex: 5,
+      flexDirection: 'row'
+   },
+   searchInput: {
+      flex: 1,
+      height: 50,
+      backgroundColor: '#fff',
+      color: '#333',
+      borderRadius: 10,
+      paddingHorizontal: 20,
+      fontSize: 16,
+      // funciona no iOS
+      shadowColor: '#000',
+      shadowOpacity: 0.2,
+      shadowOffset: {
+         width: 4,
+         height: 4
+      },
+      // funciona no Android
+      elevation: 2
+
+   },
+   loadButton: {
+      width: 50,
+      height: 50,
+      backgroundColor: '#8e4dff',
+      borderRadius: 10,
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginLeft: 15
    }
 });
 
